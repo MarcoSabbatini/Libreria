@@ -26,8 +26,8 @@ namespace Libreria.Repositories
 
         public List<Book> GetAllByFilter(Dictionary<SearchFilters, string> dictionary)
         {
-            if (dictionary.Count == 0) return null;
             
+          if (dictionary.Count == 0) return null;  
             IQueryable<Book> query = _ctx.Books;
 
             foreach (var filter in dictionary)
@@ -55,19 +55,7 @@ namespace Libreria.Repositories
                         break;
                 }
             }
-
             return query.ToList();
-        }
-
-
-
-    }
-
-    public List<Book> GetAllByCategories(string name)
-        {
-            return GetAll()
-                .Where(x => x.Categories.Contains(new Category(name)))
-                .ToList();
         }
     }
 }
