@@ -2,7 +2,7 @@
 {
     public class Category : Entity
     {
-        public string Name;
+        public string Name { get; set; }
 
         public Category(string name) { Name = name; }
     }
