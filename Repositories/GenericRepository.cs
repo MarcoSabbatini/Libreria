@@ -24,7 +24,9 @@ namespace Libreria.Repositories
 
         public virtual T? Get(int id)
         {
-            return _ctx.Set<T>().Where(x => x.Id == id).FirstOrDefault();
+            return _ctx.Set<T>().
+                Where(x => x.Id == id).
+                FirstOrDefault();
 
         }
 
