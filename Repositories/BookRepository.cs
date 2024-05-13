@@ -2,16 +2,13 @@
 using Libreria.Models.Entities;
 using Libreria.Models.Entities.Common;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-
 namespace Libreria.Repositories
 {
     public class BookRepository : GenericRepository<Book>
     {
         public BookRepository(MyDbContext ctx) : base(ctx) { }
-        public override Book? Get(int id) {
+        public override Book? Get(int id) 
+        {
             return _ctx.Books
             .Include(x => x.Name)
             .FirstOrDefault(x => x.Id == id);
