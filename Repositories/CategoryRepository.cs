@@ -11,12 +11,25 @@ namespace Libreria.Repositories
         {
         }
 
-        public override bool Delete(int id)
+        public override void Delete(int id)
         {
-            if(_ctx.
+            if (_ctx.Categories
+                .FirstOrDefault(c => c.Id == id)
+                .Books.Count == 0)
             {
-                base.Delete(id);
+                return;
             }
+            base.Delete(id);
+        }
+
+        public override void Add(Category entity)
+        {
+            if(_ctx.Categories
+                .Any(x => x.Name == entity.Name))
+            {
+                return;    
+            }
+            base.Add(entity);
         }
 
     }

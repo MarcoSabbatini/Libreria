@@ -12,7 +12,7 @@ namespace Libreria.Repositories
             _ctx = ctx;
         }
 
-        public void Add(T entity)
+        public virtual void Add(T entity)
         {
             _ctx.Set<T>().Add(entity);
         }
@@ -30,7 +30,7 @@ namespace Libreria.Repositories
 
         }
 
-        public void Delete(int id)
+        public virtual void Delete(int id)
         {
             var entity = Get(id);
             if (entity != null)
