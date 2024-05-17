@@ -10,6 +10,8 @@ namespace Libreria.Configurations
         {
             builder.ToTable("Categories");
             builder.HasKey(c => c.Id);
+            builder.HasMany(x => x.Books)
+                .WithMany(c => c.Categories);
         }
     }
 }

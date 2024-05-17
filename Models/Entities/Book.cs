@@ -1,4 +1,6 @@
-﻿namespace Libreria.Models.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Libreria.Models.Entities
 {
     public class Book : Entity
     {

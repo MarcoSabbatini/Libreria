@@ -1,6 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Libreria.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Libreria.Models.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 
 namespace Libreria.Configurations
 {
@@ -10,9 +16,9 @@ namespace Libreria.Configurations
         {
             builder.ToTable("Books");
             builder.HasKey(x => x.Name);
-            builder.HasOne(e => e.Categories)
-                .WithMany(e => e.)
-                .HasForeignKey(e => e.Id);
+            builder.HasMany(x => x.Categories)
+                .WithMany(c => c.Books);
         }
     }
 }
+    

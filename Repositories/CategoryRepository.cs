@@ -13,11 +13,9 @@ namespace Libreria.Repositories
 
         public override bool Delete(int id)
         {
-            if(_ctx.Books.Include(x => x.Categories)
-                .Where(x => x.))
+            if(_ctx.
             {
-                base.(Delete)(id);
-                JavaScriptEncoder.ReferenceEquals(privateclass)
+                base.Delete(id);
             }
         }
 
