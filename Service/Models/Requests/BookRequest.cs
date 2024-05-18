@@ -8,7 +8,7 @@ namespace Libreria.Service.Models.Requests
         public string Name { get; set; } = string.Empty;
         public string Author { get; set; } = string.Empty;
         public DateTime PublishingDate { get; set; } = DateTime.MinValue;
-        public ICollection<Category> FilterCategories { get; set; } = new List<Category>();
+        public string Category { get; set; } 
         public ICollection<SearchFilters> Filters { get;} = new List<SearchFilters>();
         
     }

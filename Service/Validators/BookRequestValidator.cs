@@ -8,22 +8,37 @@ namespace Libreria.Service.Validators
     public class BookRequestValidator : AbstractValidator<BookRequest>
     {
         public BookRequestValidator() {
+            //controlla se è stato inserito almen(o un filtro tra quelli nell'enum
             RuleFor(c => c.Filters)
                 .NotEmpty()
                 .IsInEnum()
-                .WithMessage("La ricerca deve avvenire con almeno un filtro applicato");
-
+                .Custom(SearchingValidation);
+            //    .WithMessage("La ricerca deve avvenire con almeno un filtro applicato");
+            /*
             RuleFor(c => c.FilterCategories)
-                .Custom(SerchingValidation);
+                .Custom(SerchingValidation);*/
         }
 
-        private void SerchingValidation(ICollection<Category> collection, ValidationContext<BookRequest> context)
+        private void SearchingValidation(ICollection<SearchFilters> collection, ValidationContext<BookRequest> context)
         {
-            if(context.InstanceToValidate
-                .Filters
-                .Contains(SearchFilters.CATEGORY)) {
-                context.AddFailure("La ricerca usando il filtro Categoria deve avvenire con almeno una categoria inserita");
+            if(context.InstanceToValidate.Filters.Contains(SearchFilters.CATEGORY) &&
+                context.InstanceToValidate.Category.Length < 1) 
+            {
+                context.AddFailure("La ricerca usando il filtro Categoria deve contenere almeno un carattere");
+            } else if(context.InstanceToValidate.Filters.Contains(SearchFilters.PUBLISHINGDATE) &&
+                context.InstanceToValidate.PublishingDate.CompareTo(DateTime.Now) >= 0) 
+            {
+                context.AddFailure("La ricerca usando il filtro Data di publblicazione deve riportare una data precedente ad oggi");
+            } else if(context.InstanceToValidate.Filters.Contains(SearchFilters.NAME) &&
+                context.InstanceToValidate.Name.Length < 1)
+            {
+                context.AddFailure("La ricerca usando il filtro Nome deve contenere almeno un carattere");
+            } else if (context.InstanceToValidate.Filters.Contains(SearchFilters.AUTHOR) &&
+                context.InstanceToValidate.Author.Length < 1)
+            {
+                context.AddFailure("La ricerca usando il filtro Autore deve contenere almeno un carattere");
             }
+
         }
     }
 }
