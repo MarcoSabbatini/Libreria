@@ -2,5 +2,6 @@
 {
     public class CategoryModificationRequest
     {
+        public string Name { get; set; } 
     }
 }
