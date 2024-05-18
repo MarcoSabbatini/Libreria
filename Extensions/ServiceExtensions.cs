@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Libreria.Repositories;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 
 namespace Libreria.Extensions
@@ -18,6 +20,13 @@ namespace Libreria.Extensions
             services.AddScoped<BookRepository>();
             services.AddScoped<CategoryRepository>();
             services.AddScoped<UserRepository>();
+            return services;
+        }
+
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        {
+            services.AddFluentValidationAutoValidation();
+            services.AddValidatorsFromAssembly(typeof)
             return services;
         }
     }
