@@ -21,7 +21,7 @@ namespace Libreria.Service.Services
 
         public CategoryModificationResponse CategoryModification(CategoryDto dto, CategoryActions action)
         {
-            Category category = this._categoryFactory.CreateEntity(dto);
+            Category category = this._categoryFactory.CreateEntity(dto, this._categoryRepository.GetNewId());
             switch (action)
             {
                 case CategoryActions.ADD:

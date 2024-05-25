@@ -5,11 +5,11 @@ namespace Libreria.Service.Factories
 {
     public class CategoryFactory
     {
-        public Category CreateEntity(CategoryDto dto)
+        public Category CreateEntity(CategoryDto dto, int id)
         {
             return new Category()
             {
-                Id = dto.Id,
+                Id = id,
                 Name = dto.Name,
                 Books = dto.Books
             };

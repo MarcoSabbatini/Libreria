@@ -10,10 +10,5 @@ namespace Libreria.Models.Entities
         public string Editor { get; set; } = string.Empty;
         public ICollection<Category> Categories { get; set; } = new List<Category>();
 
-        public Book(string name)
-        {
-            Name = name;
-        }
-
     }
 }
