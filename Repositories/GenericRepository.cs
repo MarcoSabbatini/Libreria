@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Libreria.Models.Context;
 using Libreria.Models.Entities;
+using Libreria.Service.Models.Responses;
 
 namespace Libreria.Repositories
 {
@@ -12,9 +13,10 @@ namespace Libreria.Repositories
             _ctx = ctx;
         }
 
-        public virtual void Add(T entity)
+        public virtual bool Add(T entity)
         {
-            _ctx.Set<T>().Add(entity);
+           _ctx.Set<T>().Add(entity);
+            return Get(entity.Id).Equals(entity.Id);
         }
 
         public void Modify(T entity)
@@ -30,11 +32,12 @@ namespace Libreria.Repositories
 
         }
 
-        public virtual void Delete(int id)
+        public virtual bool Delete(int id)
         {
             var entity = Get(id);
             if (entity != null)
                 _ctx.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+            return Get(entity.Id).Equals(entity.Id);
         }
 
         public void Save()

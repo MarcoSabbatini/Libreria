@@ -1,10 +1,10 @@
 ﻿namespace Libreria.Service.Models.Responses
 {
-    public class BaseResponse<T>
+    public class BaseResponse<T, K>
     {
 
         public T Success { get; set; }
-        public T? Result { get; set; } = default;
+        public K? Result { get; set; } = default;
 
     }
 }

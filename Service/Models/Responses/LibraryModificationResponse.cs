@@ -1,8 +1,11 @@
-﻿namespace Libreria.Service.Models.Responses
+﻿using Libreria.Models.Entities;
+using Libreria.Models.Entities.Actions;
+
+namespace Libreria.Service.Models.Responses
 {
-    public class LibraryModificationResponse
+    public class LibraryModificationResponse : BaseResponse<bool>
     {
-        public bool? Success { get; set; }
+        public BookActions BookAction { get; set; }
 
     }
 }

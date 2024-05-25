@@ -1,5 +1,6 @@
 ﻿using Libreria.Models.Context;
 using Libreria.Models.Entities;
+using Libreria.Service.Models.Responses;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Encodings.Web;
 
@@ -11,25 +12,20 @@ namespace Libreria.Repositories
         {
         }
 
-        public override void Delete(int id)
+        public ICollection<Book>? Delete(int id)
         {
-            if (_ctx.Categories
-                .FirstOrDefault(c => c.Id == id)
-                .Books.Count == 0)
-            {
-                return;
-            }
-            base.Delete(id);
+            var category = _ctx.Categories.FirstOrDefault(c => c.Id == id);
+            return category.Books.Count == 0 ? category.Books : null;
         }
 
-        public override void Add(Category entity)
+        public override bool Add(Category entity)
         {
             if(_ctx.Categories
                 .Any(x => x.Name == entity.Name))
             {
-                return;    
+                return false;    
             }
-            base.Add(entity);
+            return base.Add(entity);
         }
 
     }
