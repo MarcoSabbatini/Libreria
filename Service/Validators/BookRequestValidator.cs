@@ -46,7 +46,6 @@ namespace Libreria.Service.Validators
                         }
                         break;
                     default:
-                        // Ignora filtri non supportati
                         break;
                 }
             }

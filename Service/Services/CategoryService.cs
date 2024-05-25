@@ -26,18 +26,32 @@ namespace Libreria.Service.Services
             {
                 case CategoryActions.ADD:
 
-                    return new CategoryModificationResponse()
+                    var success0 = this._categoryRepository.Add(category);
+                    if (success0)
                     {
-                        CategoryAction = action,
-                        Success = this._categoryRepository.Add(category),
-                        Result = category
-
-                    };
+                        return new CategoryModificationResponse()
+                        {
+                            CategoryAction = action,
+                            Success = success0,
+                            Result = category
+                        };
+                    } 
+                    else
+                    {
+                        return new CategoryModificationResponse()
+                        {
+                            CategoryAction = action,
+                            Success = success0,
+                            Result = category, 
+                            Name = category.Name
+                        };
+                    }
+  
 
                 case CategoryActions.DELETE:
 
-                    var success = this._categoryRepository.Delete(dto.Id);
-                    if (success == null)
+                    var success1 = this._categoryRepository.Delete(dto.Id);
+                    if (success1 == null)
                     {
                         return new CategoryModificationResponse()
                         {
@@ -53,7 +67,7 @@ namespace Libreria.Service.Services
                             CategoryAction = action,
                             Success = false,
                             Result = category,
-                            Books = success
+                            Books = success1
                         };
                     }
             }
