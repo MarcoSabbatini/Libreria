@@ -1,6 +1,7 @@
 ﻿using Libreria.Models.Context;
 using Libreria.Models.Entities;
 using Libreria.Models.Entities.Common;
+using Libreria.Service.Models.Requests;
 using Microsoft.EntityFrameworkCore;
 namespace Libreria.Repositories
 {
@@ -21,38 +22,33 @@ namespace Libreria.Repositories
                 .ToList();
         }
 
-        public List<Book> GetAllByFilter(Dictionary<SearchFilters, string> dictionary)
+        public List<Book> GetAllByFilter(BookRequest bookForFilters)
         {
             
-          if (dictionary.Count == 0) return null;  
-            IQueryable<Book> query = _ctx.Books;
+            if (bookForFilters.Filters.Count == 0) return null;  
+              IQueryable<Book> query = _ctx.Books;
 
-            foreach (var filter in dictionary)
-            {
-                switch (filter.Key)
-                {
-                    case SearchFilters.CATEGORY:
-                        query = query.Where(x => x.Categories.Any(c => c.Name.Equals(filter.Value)));
-                        break;
-                    case SearchFilters.NAME:
-                        query = query.Where(x => x.Name.Equals(filter.Value));
-                        break;
-                    case SearchFilters.AUTHOR:
-                        query = query.Where(x => x.Author.Equals(filter.Value));
-                        break;
-                    case SearchFilters.PUBLISHINGDATE:
-                        // Converti il valore della data da stringa a DateTime
-                        DateTime publishingDate;
-                        if (DateTime.TryParse(filter.Value, out publishingDate))
-                        {
-                            query = query.Where(x => x.PublishingDate == publishingDate);
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-            return query.ToList();
+              foreach (var filter in bookForFilters.Filters)
+              {
+                  switch (filter)
+                  {
+                      case SearchFilters.CATEGORY:
+                          query = query.Where(x => x.Categories.Any(c => c.Name.Equals(bookForFilters.Category)));
+                          break;
+                      case SearchFilters.NAME:
+                          query = query.Where(x => x.Name.Equals(bookForFilters.Name));
+                          break;
+                      case SearchFilters.AUTHOR:
+                          query = query.Where(x => x.Author.Equals(bookForFilters.Author));
+                          break;
+                      case SearchFilters.PUBLISHINGDATE:
+                          query = query.Where(x => x.PublishingDate.Equals(bookForFilters.PublishingDate));
+                          break;
+                      default:
+                          break;
+                  }
+              }
+              return query.ToList();
         }
     }
 }

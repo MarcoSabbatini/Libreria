@@ -9,6 +9,6 @@ namespace Libreria.Service.Abstraction
     {
         public LibraryModificationResponse LibraryModification(BookDto dto, BookActions action);
 
-        public List<BookSearchingResponse> GetBooks(BookRequest request);
+        public BookSearchingResponse GetBooks(BookRequest request);
     }
 }

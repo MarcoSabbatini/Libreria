@@ -2,9 +2,8 @@
 
 namespace Libreria.Service.Models.Responses
 {
-    public class BookSearchingResponse : BaseResponse<bool>
+    public class BookSearchingResponse : BaseResponse<bool, ICollection<Book>>
     {
-        public ICollection<Book> Books { get; set; } = new List<Book>();
 
     }
 }

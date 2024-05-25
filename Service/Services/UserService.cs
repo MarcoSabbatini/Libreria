@@ -22,12 +22,14 @@ namespace Libreria.Service.Services
         }
         public AAAResponse Authentication(Credentials credentials)
         {
-            throw new NotImplementedException();
+
         }
 
         public AAAResponse SignIn(UserDto userDto)
         {
-            throw new NotImplementedException();
+            if (this._userRepository.CheckIfUnique(userDto.Email)) { 
+                return new AAAResponse(
+            } 
         }
     }
 }
