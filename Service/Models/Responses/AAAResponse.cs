@@ -2,9 +2,8 @@
 
 namespace Libreria.Service.Models.Responses
 {
-    public class AAAResponse : BaseResponse<bool>
+    public class AAAResponse : BaseResponse<bool, string>
     {
-        public string Response { get; set; }
         public ICollection<Claim> Claims { get; set; } = new List<Claim>();
     }
 }

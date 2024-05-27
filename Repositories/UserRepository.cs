@@ -23,7 +23,7 @@ namespace Libreria.Repositories
 
         public bool CheckIfUnique(string email)
         {
-            return _ctx.Users
+            return !_ctx.Users
                 .Any(u => u.Email == email);
         }
     }
