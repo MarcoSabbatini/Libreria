@@ -45,10 +45,13 @@ namespace Libreria.Service.Services
         public AAAResponse SignIn(UserDto userDto)
         {
             if (this._userRepository.CheckIfUnique(userDto.Email)) {
+                List<Claim> list1 = new List<Claim>();
+                list1.Add(new Claim(ClaimTypes.Email, userDto.Email));
+                list1.Add(new Claim(ClaimTypes.Name, userDto.Name));
+                list1.Add(new Claim(ClaimTypes.Surname, userDto.Surname));
+                list1.Add(new Claim("Id", userDto.Id.ToString()));
                 List<Claim> list = new List<Claim>();
-                list.Add(new Claim(ClaimTypes.Email, userDto.Email));
-                list.Add(new Claim(ClaimTypes.Name, userDto.Name));
-                list.Add(new Claim(ClaimTypes.Surname, userDto.Surname));
+                list.Add(new Claim("Token", new JwtSecurityTokenHandler().WriteToken(this.CreateSecurityToken(list1))));
                 return new AAAResponse()
                 {
                     Success = this._userRepository.Add(this._userFactory.CreateUser(userDto)),
@@ -62,9 +65,9 @@ namespace Libreria.Service.Services
             };
         }
 
-        public JwtSecurityToken CreateSecurityToken()
+        public JwtSecurityToken CreateSecurityToken(ICollection<Claim> list)
         {
-            return new JwtSecurityToken(this._jwtAuthenticationOption.Issuer, null, null, expires: DateTime.Now.AddHours(2), signingCredentials: CreateCredentials());
+            return new JwtSecurityToken(this._jwtAuthenticationOption.Issuer, null, list, expires: DateTime.Now.AddHours(2), signingCredentials: CreateCredentials());
         }
 
         private SigningCredentials CreateCredentials()

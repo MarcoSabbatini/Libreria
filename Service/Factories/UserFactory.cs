@@ -20,7 +20,7 @@ namespace Libreria.Service.Factories
                 Id = user.Id
             };
         }
-        public AAAResponse GenerateResponse(User? user)
+        /*public AAAResponse GenerateResponse(User? user)
         {
             if (user is null)
             {
@@ -41,6 +41,6 @@ namespace Libreria.Service.Factories
                         ]
                 };
             }
-        }
+        }*/
     }
 }
