@@ -9,6 +9,7 @@ namespace Libreria.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("Users");
+            builder.HasKey(x => x.Id);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Libreria.Configurations
         public void Configure(EntityTypeBuilder<Book> builder)
         {
             builder.ToTable("Books");
-            builder.HasKey(x => x.Name);
+            builder.HasKey(x => x.Id);
             builder.HasMany(x => x.Categories)
                 .WithMany(c => c.Books);
         }
