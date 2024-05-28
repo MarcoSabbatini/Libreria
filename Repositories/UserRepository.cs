@@ -1,5 +1,6 @@
 ﻿using Libreria.Models.Context;
 using Libreria.Models.Entities;
+using Libreria.Service.Models.AuthOptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.Repositories
@@ -14,11 +15,11 @@ namespace Libreria.Repositories
                 .FirstOrDefault(u => u.Id == id);
         }
 
-        public User? Get(string email, string password)
+        public User? Get(Credentials credentials)
         {
             return _ctx.Users
-                .Where(u => u.Email == email)
-                .FirstOrDefault(u => u.Password == password);
+                .Where(u => u.Email == credentials.email)
+                .FirstOrDefault(u => u.Password == credentials.password);
         }
 
         public bool CheckIfUnique(string email)

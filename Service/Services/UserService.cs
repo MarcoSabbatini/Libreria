@@ -7,6 +7,9 @@ using Libreria.Service.Models.Responses;
 using Microsoft.Extensions.Options;
 using Libreria.Service.Factories;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Libreria.Service.Services
 {
@@ -23,7 +26,12 @@ namespace Libreria.Service.Services
         }
         public AAAResponse Authentication(Credentials credentials)
         {
-
+            var user = this._userRepository.Get(credentials);
+            return new AAAResponse()
+            {
+                Success = user != null ? true : false,
+                Result = $"Email: {user.Email}  Password: {user.Password}"
+            };  
         }
 
         public AAAResponse SignIn(UserDto userDto)
@@ -33,14 +41,26 @@ namespace Libreria.Service.Services
                 {
                     Success = this._userRepository.Add(this._userFactory.CreateUser(userDto)),
                     Result = this._userRepository.Get(userDto.Id).Email,
-                    Claims = 
+                    //Claims = 
                 };
-            } 
+            }
+            return new AAAResponse()
+            {
+                Success = false,
+                Result = 
+            };
         }
 
         public JwtSecurityToken CreateSecurityToken()
         {
-            return new JwtSecurityToken(this._jwtAuthenticationOption.Value, null, null,/* aggiungere i claim*/ DateTime.Now.AddHours(2), );
+            return new JwtSecurityToken(this._jwtAuthenticationOption.Issuer, null, null, expires: DateTime.Now.AddHours(2), signingCredentials: CreateCredentials());
+
         }
+
+        private SigningCredentials CreateCredentials()
+        {
+            var Key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this._jwtAuthenticationOption.Key));
+            return new SigningCredentials(Key, SecurityAlgorithms.HmacSha256);
+        } 
     }
 }

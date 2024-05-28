@@ -2,13 +2,8 @@
 {
     public class Credentials
     {
-        public string email;
-        public string password;
+        public string email { get; set; }
+        public string password { get; set; }
 
-        public Credentials(string email, string password)
-        {
-            this.email = email;
-            this.password = password;
-        }
     }
 }
