@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Libreria.Repositories;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Libreria.Service.Validators;
+using Libreria.Service.Abstraction;
+using Libreria.Service.Services;
 
 
 namespace Libreria.Extensions
@@ -26,7 +29,10 @@ namespace Libreria.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddFluentValidationAutoValidation();
-            services.AddValidatorsFromAssembly(typeof)
+            services.AddValidatorsFromAssembly(typeof(UserDtoValidator).Assembly);
+            services.AddScoped<IBookService, BookService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IUserService, UserService>();
             return services;
         }
     }
