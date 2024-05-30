@@ -6,8 +6,8 @@ namespace Libreria.Service.Abstraction
 {
     public interface IUserService
     {
-        public AAAResponse SignIn(UserDto userDto);
+        public AAAResponse SignUp(UserDto userDto);
 
-        public AAAResponse Authentication(Credentials credentials);
+        public AAAResponse SignIn(Credentials credentials);
     }
 }

@@ -28,7 +28,7 @@ namespace Libreria.Service.Services
             _userFactory = new UserFactory();
         }
 
-        public AAAResponse Authentication(Credentials credentials)
+        public AAAResponse SignIn(Credentials credentials)
         {
             var user = this._userRepository.Get(credentials);
             List<Claim> list = new List<Claim>();
@@ -42,7 +42,7 @@ namespace Libreria.Service.Services
             };  
         }
 
-        public AAAResponse SignIn(UserDto userDto)
+        public AAAResponse SignUp(UserDto userDto)
         {
             if (this._userRepository.CheckIfUnique(userDto.Email)) {
                 List<Claim> list1 = new List<Claim>();
