@@ -20,7 +20,7 @@ namespace Libreria.Contollers
             _bookService = bookService;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("get")]
         public IActionResult GetBooks(BookRequest request) {
             if (_bookService.GetBooks(request).Success) return Ok();
