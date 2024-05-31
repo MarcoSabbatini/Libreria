@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
+using Libreria.Service.Models.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,13 @@ namespace Libreria.Api
 {
     public static class ServiceExtension
     {
+
+        public static IServiceCollection AddWebServices(this IServiceCollection services)
+        {
+            services.AddControllers();
+            services.AddEndpointsApiExplorer();
+            return services;
+        }
         public static IServiceCollection AddServicesSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen(s =>
@@ -41,12 +49,39 @@ namespace Libreria.Api
                                 Id = "Bearer"
                             }
                     },
-                    new string[] {}
+                    Array.Empty<string>()
                     }
                 });
             });
             return services;
         }
 
+        public static IServiceCollection AddSecurityServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            var jwtAuthenticationOption = new JwtAuthenticationOption();
+            configuration.GetSection("JwtAuthentication")
+                .Bind(jwtAuthenticationOption);
+            services.AddAuthentication(options => {
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options => {
+                string key = jwtAuthenticationOption.Key;
+                var securityKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(key)
+                    );
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateLifetime = true,
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtAuthenticationOption.Issuer,
+                    IssuerSigningKey = securityKey
+                };
+            });
+            services.Configure<JwtAuthenticationOption>(configuration.GetSection("JwtAuthentication"));
+            return services;
+        }
     }
 }
