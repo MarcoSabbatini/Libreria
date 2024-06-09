@@ -11,7 +11,8 @@ namespace Libreria.Contollers
     {
         ICategoryService _categoryService;
 
-        public CategoryController(ICategoryService categoryService) { 
+        public CategoryController(ICategoryService categoryService)
+        {
             this._categoryService = categoryService;
         }
 

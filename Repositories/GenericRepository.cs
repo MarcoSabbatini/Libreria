@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Libreria.Models.Context;
+﻿using Libreria.Models.Context;
 using Libreria.Models.Entities;
-using Libreria.Service.Models.Responses;
 
 namespace Libreria.Repositories
 {
@@ -15,7 +13,7 @@ namespace Libreria.Repositories
 
         public virtual bool Add(T entity)
         {
-           _ctx.Set<T>().Add(entity);
+            _ctx.Set<T>().Add(entity);
             return Get(entity.Id).Equals(entity.Id);
         }
 

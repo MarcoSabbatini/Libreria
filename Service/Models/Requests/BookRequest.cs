@@ -1,5 +1,4 @@
-﻿using Libreria.Models.Entities;
-using Libreria.Models.Entities.Common;
+﻿using Libreria.Models.Entities.Common;
 
 namespace Libreria.Service.Models.Requests
 {
@@ -14,7 +13,7 @@ namespace Libreria.Service.Models.Requests
          */
         public string Category { get; set; } = string.Empty;
 
-        public ICollection<SearchFilters> Filters { get;} = new List<SearchFilters>();
-        
+        public ICollection<SearchFilters> Filters { get; } = new List<SearchFilters>();
+
     }
 }

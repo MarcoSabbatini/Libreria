@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Libreria.Models.Entities.Actions;
 using Libreria.Service.Abstraction;
-using Libreria.Service.Models.Requests;
-using Libreria.Models.Entities.Actions;
 using Libreria.Service.Models.Dtos;
+using Libreria.Service.Models.Requests;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Libreria.Contollers
@@ -28,7 +28,8 @@ namespace Libreria.Contollers
             Description = "Fetches all books corresponding to the filters",
             OperationId = "GetBooks"
         )]
-        public IActionResult GetBooks(BookRequest request) {
+        public IActionResult GetBooks(BookRequest request)
+        {
             if (_bookService.GetBooks(request).Success) return Ok();
             else return BadRequest();
         }

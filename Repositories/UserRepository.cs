@@ -1,7 +1,6 @@
 ﻿using Libreria.Models.Context;
 using Libreria.Models.Entities;
 using Libreria.Service.Models.AuthOptions;
-using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.Repositories
 {
@@ -9,11 +8,11 @@ namespace Libreria.Repositories
     {
         public UserRepository(MyDbContext ctx) : base(ctx) { }
 
-        public override User? Get(int id)
+        /*public override User? Get(int id)
         {
             return _ctx.Users
                 .FirstOrDefault(u => u.Id == id);
-        }
+        }*/
 
         public User? Get(Credentials credentials)
         {

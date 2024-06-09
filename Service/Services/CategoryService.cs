@@ -35,18 +35,18 @@ namespace Libreria.Service.Services
                             Success = success0,
                             Result = category
                         };
-                    } 
+                    }
                     else
                     {
                         return new CategoryModificationResponse()
                         {
                             CategoryAction = action,
                             Success = success0,
-                            Result = category, 
+                            Result = category,
                             Name = category.Name
                         };
                     }
-  
+
 
                 case CategoryActions.DELETE:
 

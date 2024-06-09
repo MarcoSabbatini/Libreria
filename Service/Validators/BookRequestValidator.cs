@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Libreria.Models.Entities;
 using Libreria.Models.Entities.Common;
 using Libreria.Service.Models.Requests;
 
@@ -7,7 +6,8 @@ namespace Libreria.Service.Validators
 {
     public class BookRequestValidator : AbstractValidator<BookRequest>
     {
-        public BookRequestValidator() {
+        public BookRequestValidator()
+        {
             //controlla se è stato inserito almeno un filtro tra quelli nell'enum
             RuleFor(c => c.Filters)
                 .NotEmpty()

@@ -1,8 +1,5 @@
 ﻿using Libreria.Models.Context;
 using Libreria.Models.Entities;
-using Libreria.Service.Models.Responses;
-using Microsoft.EntityFrameworkCore;
-using System.Text.Encodings.Web;
 
 namespace Libreria.Repositories
 {
@@ -20,10 +17,10 @@ namespace Libreria.Repositories
 
         public override bool Add(Category entity)
         {
-            if(_ctx.Categories
+            if (_ctx.Categories
                 .Any(x => x.Name == entity.Name))
             {
-                return false;    
+                return false;
             }
             return base.Add(entity);
         }

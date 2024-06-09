@@ -1,20 +1,19 @@
-﻿using Libreria.Models.Context;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using Libreria.Repositories;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.AspNetCore;
-using Libreria.Service.Validators;
+using Libreria.Models.Context;
+using Libreria.Repositories;
 using Libreria.Service.Abstraction;
 using Libreria.Service.Services;
+using Libreria.Service.Validators;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Libreria.Extensions
 {
     public static class ServiceExtensions
     {
-        public static IServiceCollection AddRepositoryService(this IServiceCollection services, IConfiguration configuration) {
+        public static IServiceCollection AddRepositoryService(this IServiceCollection services, IConfiguration configuration)
+        {
 
             services.AddDbContext<MyDbContext>(config =>
             {

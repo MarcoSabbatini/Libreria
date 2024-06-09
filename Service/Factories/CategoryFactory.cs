@@ -1,5 +1,5 @@
-﻿using Libreria.Service.Models.Dtos;
-using Libreria.Models.Entities;
+﻿using Libreria.Models.Entities;
+using Libreria.Service.Models.Dtos;
 
 namespace Libreria.Service.Factories
 {

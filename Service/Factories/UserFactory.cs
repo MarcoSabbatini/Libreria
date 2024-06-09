@@ -1,7 +1,5 @@
 ﻿using Libreria.Models.Entities;
 using Libreria.Service.Models.Dtos;
-using Libreria.Service.Models.Responses;
-using System.Security.Claims;
 
 namespace Libreria.Service.Factories
 {
@@ -15,8 +13,10 @@ namespace Libreria.Service.Factories
             }
             return new User()
             {
-                Name = user.Name, Email = user.Email, 
-                Surname = user.Surname, Password = user.Password, 
+                Name = user.Name,
+                Email = user.Email,
+                Surname = user.Surname,
+                Password = user.Password,
                 Id = user.Id
             };
         }

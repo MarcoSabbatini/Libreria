@@ -1,4 +1,4 @@
-﻿using FluentValidation.Validators;
+﻿using Libreria.Models.Entities;
 using Libreria.Models.Entities.Actions;
 using Libreria.Repositories;
 using Libreria.Service.Abstraction;
@@ -6,9 +6,6 @@ using Libreria.Service.Factories;
 using Libreria.Service.Models.Dtos;
 using Libreria.Service.Models.Requests;
 using Libreria.Service.Models.Responses;
-using System.Reflection.Metadata.Ecma335;
-using Libreria.Models.Entities;
-using Libreria.Models.Entities.Common;
 
 namespace Libreria.Service.Services
 {
@@ -29,17 +26,18 @@ namespace Libreria.Service.Services
         {
 
             var book = this._bookFactory.CreateEntity(dto, this._bookRepository.GetNewId());
-            switch (action) { 
-                
+            switch (action)
+            {
+
                 case BookActions.ADD:
                     var success = false;
                     foreach (var item in dto.Categories)
                     {
-                        if(this._categoryRepository.Get(item.Id) != null)
+                        if (this._categoryRepository.Get(item.Id) != null)
                         {
                             this._categoryRepository.Add(item);
                         }
-                       
+
                     }
                     return new LibraryModificationResponse()
                     {
@@ -81,7 +79,7 @@ namespace Libreria.Service.Services
 
         public BookSearchingResponse GetBooks(BookRequest request)
         {
-            ICollection<Book> books = [];            
+            ICollection<Book> books = [];
             books = this._bookRepository.GetAllByFilter(request);
 
             return new BookSearchingResponse()
@@ -90,6 +88,6 @@ namespace Libreria.Service.Services
                 Result = books
             };
         }
-        
+
     }
 }
