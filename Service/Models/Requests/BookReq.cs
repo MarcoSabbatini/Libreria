@@ -4,7 +4,7 @@ using System.Diagnostics.Metrics;
 
 namespace Libreria.Service.Models.Requests
 {
-    public class BookRequest
+    public class BookReq : GenericReq<Book>
     {
         public string Name { get; set; } = string.Empty;
         public string Author { get; set; } = string.Empty;
@@ -13,6 +13,16 @@ namespace Libreria.Service.Models.Requests
         public ICollection<Category> categories { get; set; } = new List<Category>();
         public int? pageSize { get; set; } = 10;
         public int? pageCount { get; set; } = 0;
+
+        public Book EntityCreation()
+        {
+            return new Book() 
+            { 
+                Author = this.Author, 
+                Name = this.Name, 
+                Categories = this.categories
+            };
+        }
 
         /**
          * Searching only 1 category at a time allowed
