@@ -10,6 +10,7 @@ namespace Libreria.Configurations
         {
             builder.ToTable("Users");
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).ValueGeneratedOnAdd();
         }
     }
 }

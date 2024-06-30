@@ -1,7 +1,8 @@
 ﻿namespace Libreria.Models.Entities
 {
-    public class Book : Entity
+    public class Book 
     {
+        public int? Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Author { get; set; } = string.Empty;
         public DateTime PublishingDate { get; set; } = DateTime.MinValue;

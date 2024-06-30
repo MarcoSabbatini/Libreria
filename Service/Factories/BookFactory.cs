@@ -1,5 +1,6 @@
 ﻿using Libreria.Models.Entities;
 using Libreria.Service.Models.Dtos;
+using System.Globalization;
 
 namespace Libreria.Service.Factories
 {
@@ -11,7 +12,7 @@ namespace Libreria.Service.Factories
             {
                 Id = id,
                 Name = dto.Name,
-                PublishingDate = dto.PublishingDate,
+                PublishingDate = DateTime.ParseExact(dto.PublishingDate, "dd/MM/yyyy", CultureInfo.InvariantCulture),
                 Author = dto.Author,
                 Editor = dto.Editor,
                 Categories = dto.Categories
