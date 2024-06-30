@@ -3,6 +3,7 @@ using Libreria.Models.Entities;
 using Libreria.Models.Entities.Common;
 using Libreria.Service.Models.Requests;
 using Microsoft.EntityFrameworkCore;
+using MySqlX.XDevAPI.Common;
 using static System.Reflection.Metadata.BlobBuilder;
 namespace Libreria.Models.Repositories
 {
@@ -109,6 +110,7 @@ namespace Libreria.Models.Repositories
             Save();
         }
 
+        
         public ICollection<Book> GetAllByFilter(Book book, DateTime? after, DateTime? before, int pageSize, int pageCount)
         {
             List<Book> outcome = new List<Book>();
@@ -125,6 +127,36 @@ namespace Libreria.Models.Repositories
             }
             ICollection<Book> aux = query.ToList();
 
+            foreach(var _book in aux)
+            {
+                var categories = base._ctx.Books
+                    .Where(x => x.Id == book.Id)
+                    .SelectMany(x => x.Categories)//takes all the categories appended(nested) to all the books
+                    .Select(x => new Category { Id = x.Id, Name = x.Name })//transforms each category object into a new category without the books nested 
+                    .Distinct()
+                    .ToList();
+                //if no categories are passed as a filter, it just pust back the categories to the corresponding book
+                if (book.Categories.Count == 0) { 
+                    _book.Categories = categories;
+                    outcome.Add(_book);
+                } else {
+                    //checks whether there's any category of the aux books inside the category filter, if so puts back the categories to the corresponding book
+                    foreach (var category in categories)
+                    {
+                        if (book.Categories.Any(x => category.Id == x.Id))
+                        {
+                            _book.Categories = categories;
+                            outcome.Add(_book);
+                            break;
+                        }
+                    }
+
+                }
+            }
+            outcome = outcome
+                .Skip((pageCount -1) * pageSize)//returns the number of elements pageCount multiplied by pageSize
+                .Take(pageSize)//number of items
+                .ToList();
             return outcome;
         }
 
@@ -157,7 +189,7 @@ namespace Libreria.Models.Repositories
                 return query.ToList();
             }*/
 
-            private List<Category> AddCat(Book book)
+        private List<Category> AddCat(Book book)
         {
             return base._ctx.Books
                 .Where(x => x.Id == book.Id)
@@ -165,6 +197,12 @@ namespace Libreria.Models.Repositories
                 .Select(x => new Category { Id = x.Id, Name = x.Name })//transforms each category object into a new category without the books nested 
                 .Distinct()
                 .ToList();
+        }
+
+        private void AssignCatsToList(Book book, List<Category> categories, List<Book> list)
+        {
+            book.Categories = categories;
+            list.Add(book);
         }
     }
 }
