@@ -2,7 +2,7 @@
 using Libreria.Models.Entities;
 using Libreria.Service.Models.AuthOptions;
 
-namespace Libreria.Repositories
+namespace Libreria.Models.Repositories
 {
     public class UserRepository : GenericRepository<User>
     {

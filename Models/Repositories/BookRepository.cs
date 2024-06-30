@@ -3,20 +3,37 @@ using Libreria.Models.Entities;
 using Libreria.Models.Entities.Common;
 using Libreria.Service.Models.Requests;
 using Microsoft.EntityFrameworkCore;
-namespace Libreria.Repositories
+namespace Libreria.Models.Repositories
 {
     public class BookRepository : GenericRepository<Book>
     {
         public BookRepository(MyDbContext ctx) : base(ctx) { }
+
         public override Book? Get(int id)
         {
-            return _ctx.Books
-            .Include(x => x.Name)
-            .FirstOrDefault(x => x.Id == id);
+            var book = base._ctx.Books
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
+            if(book == null)
+            {
+                throw new Exception("Select another index, there are no books corresponding to this index");
+            }
+            var categories = base._ctx.Books
+                .Where(x => x.Id ==  book.Id)
+                .SelectMany(x => x.Categories)//takes all the categories appended(nested) to all the books
+                .Select(x => new Category { Id = x.Id, Name = x.Name})//transforms each category object into a new category without the books nested 
+                .Distinct()
+                .ToList();
+            book.Categories = categories;
+
+            return book;
         }
 
         public List<Book> GetAll()
         {
+            var books = base._ctx.Books.ToList();
+
+
             return _ctx.Books
                 .Include(x => x.Categories)
                 .ToList();

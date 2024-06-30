@@ -1,4 +1,4 @@
-﻿using Libreria.Repositories;
+﻿using Libreria.Models.Repositories;
 using Libreria.Service.Abstraction;
 using Libreria.Service.Factories;
 using Libreria.Service.Models.AuthOptions;

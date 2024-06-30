@@ -1,7 +1,7 @@
 ﻿using Libreria.Models.Context;
 using Libreria.Models.Entities;
 
-namespace Libreria.Repositories
+namespace Libreria.Models.Repositories
 {
     public class CategoryRepository : GenericRepository<Category>
     {

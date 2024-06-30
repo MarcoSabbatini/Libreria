@@ -21,10 +21,9 @@ namespace Libreria.Models.Context
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder
-            .UseSqlServer("MyDbContext")
-            .EnableSensitiveDataLogging();
+            //vuota perché viene inserita la stringa con dependency injection
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);

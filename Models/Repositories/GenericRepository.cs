@@ -1,9 +1,9 @@
 ﻿using Libreria.Models.Context;
 using Libreria.Models.Entities;
 
-namespace Libreria.Repositories
+namespace Libreria.Models.Repositories
 {
-    public abstract class GenericRepository<T> where T : Entity
+    public abstract class GenericRepository<T> where T : class
     {
         protected MyDbContext _ctx;
         public GenericRepository(MyDbContext ctx)
@@ -11,46 +11,34 @@ namespace Libreria.Repositories
             _ctx = ctx;
         }
 
-        public virtual bool Add(T entity)
+        public virtual void Add(T entity)
         {
             _ctx.Set<T>().Add(entity);
-            return Get(entity.Id).Equals(entity.Id);
+            Save();
         }
 
         public void Modify(T entity)
         {
             _ctx.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            Save();
         }
 
         public virtual T? Get(int id)
         {
-            return _ctx.Set<T>().
-                Where(x => x.Id == id).
-                FirstOrDefault();
-
+            return _ctx.Set<T>().Find(id);
         }
 
-        public virtual bool Delete(int id)
+        public virtual void Delete(int id)
         {
             var entity = Get(id);
             if (entity != null)
                 _ctx.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
-            return Get(entity.Id).Equals(entity.Id);
+            Save();
         }
 
         public void Save()
         {
             _ctx.SaveChanges();
-        }
-
-        public int GetNewId()
-        {
-            var first = _ctx.Set<T>()
-                .OrderBy(x => x.Id)
-                .Reverse().FirstOrDefault();
-            if (first != null)
-                return first.Id + 1;
-            else return 1;
         }
     }
 }
