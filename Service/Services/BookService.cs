@@ -11,17 +11,18 @@ namespace Libreria.Service.Services
 {
     public class BookService : IBookService
     {
-        private readonly CategoryRepository _categoryRepository;
+        /*private readonly CategoryRepository _categoryRepository;*/
         private readonly BookRepository _bookRepository;
         private readonly BookFactory _bookFactory;
 
-        public BookService(CategoryRepository categoryRepository, BookRepository bookRepository)
+        public BookService(/*CategoryRepository categoryRepository, */BookRepository bookRepository)
         {
-            _categoryRepository = categoryRepository;
+            //_categoryRepository = categoryRepository;
             _bookRepository = bookRepository;
             _bookFactory = new BookFactory();
         }
 
+        /*
         public LibraryModificationResponse LibraryModification(BookDto dto, BookActions action)
         {
 
@@ -87,7 +88,37 @@ namespace Libreria.Service.Services
                 Success = books == null ? false : true,
                 Result = books
             };
+        }*/
+
+        public ICollection<Book> GetAll()
+        {
+            return _bookRepository.GetAll();
         }
 
+        public Book Get(int id)
+        {
+            return _bookRepository.Get(id);
+        }
+
+        public Book Modify(Book book)
+        {
+            return _bookRepository.Modify(book);
+        }
+
+        public void Add(Book book)
+        {
+            _bookRepository.Add(book);
+            _bookRepository.Save();
+        }
+
+        public void Delete(int id)
+        {
+            _bookRepository.Delete(id);
+        }
+
+        public ICollection<Book> GetAllByFilter(Book book, DateTime after, DateTime before, int pageSize, int pageCount)
+        {
+            return _bookRepository.GetAllByFilter(book, after, before, pageSize, pageCount);
+        }
     }
 }

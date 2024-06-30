@@ -19,6 +19,12 @@ namespace Libreria.Service.Services
             _categoryFactory = new CategoryFactory();
         }
 
+        public void Add(Category category)
+        {
+            _categoryRepository.Add(category);
+            _categoryRepository.Save();
+        }
+        /*
         public CategoryModificationResponse CategoryModification(CategoryDto dto, CategoryActions action)
         {
             Category category = this._categoryFactory.CreateEntity(dto, this._categoryRepository.GetNewId());
@@ -73,6 +79,22 @@ namespace Libreria.Service.Services
             }
             return null;
 
+        }*/
+
+        public void Delete(int id)
+        {
+            _categoryRepository.Delete(id);
+            _categoryRepository.Save();
+        }
+
+        public Category Get(int id)
+        {
+            return _categoryRepository.Get(id);
+        }
+
+        public Category Get(string name)
+        {
+            return _categoryRepository.Get(name);
         }
     }
 }
