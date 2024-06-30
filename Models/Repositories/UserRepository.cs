@@ -1,6 +1,7 @@
 ﻿using Libreria.Models.Context;
 using Libreria.Models.Entities;
 using Libreria.Service.Models.AuthOptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.Models.Repositories
 {
@@ -8,17 +9,16 @@ namespace Libreria.Models.Repositories
     {
         public UserRepository(MyDbContext ctx) : base(ctx) { }
 
-        /*public override User? Get(int id)
+        public User? Get(string email, string password)
         {
             return _ctx.Users
-                .FirstOrDefault(u => u.Id == id);
-        }*/
+                .Where(x => x.Email == email)
+                .Where(x => x.Password == password).First();
+        }
 
-        public User? Get(Credentials credentials)
+        public User? Get(string email)
         {
-            return _ctx.Users
-                .Where(u => u.Email == credentials.email)
-                .FirstOrDefault(u => u.Password == credentials.password);
+            return _ctx.Users.Where(x => x.Email == email).First();
         }
 
         public bool CheckIfUnique(string email)

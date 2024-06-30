@@ -1,5 +1,6 @@
 ﻿using Libreria.Models.Context;
 using Libreria.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Libreria.Models.Repositories
 {
@@ -15,15 +16,23 @@ namespace Libreria.Models.Repositories
             return category.Books.Count == 0 ? category.Books : null;
         }
 
-        public override bool Add(Category entity)
+        public override Category? Get(int id)
         {
-            if (_ctx.Categories
-                .Any(x => x.Name == entity.Name))
+            try
             {
-                return false;
+                return _ctx.Categories.Where(x => x.Id == id).Include(x => x.Books).First();
             }
-            return base.Add(entity);
+            catch
+            {
+                throw new Exception("Non esiste nessuna categoria con questo id");
+            }
         }
+
+        public Category Get(string name) 
+        {
+            return _ctx.Categories.Where(x => x.Name == name).First();       
+        }
+
 
     }
 }
