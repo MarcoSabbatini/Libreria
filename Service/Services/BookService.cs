@@ -107,6 +107,7 @@ namespace Libreria.Service.Services
 
         public void Add(Book book)
         {
+            //the add() tracks all the entities in the add state and once the savechanges is called they'll be actually inserted 
             _bookRepository.Add(book);
             _bookRepository.Save();
         }

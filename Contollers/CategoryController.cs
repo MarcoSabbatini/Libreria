@@ -1,6 +1,8 @@
 ﻿using Libreria.Models.Entities.Actions;
 using Libreria.Service.Abstraction;
+using Libreria.Service.Factories;
 using Libreria.Service.Models.Dtos;
+using Libreria.Service.Models.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Libreria.Contollers
@@ -16,12 +18,38 @@ namespace Libreria.Contollers
             this._categoryService = categoryService;
         }
 
-        [HttpPost]
-        [Route("categorymodification")]
-        public IActionResult CategoryModification(CategoryDto dto, CategoryActions action)
+        [HttpPut]
+        [Route("add")]
+        public IActionResult CategoryCreation(CatCreationReq req)
         {
-            if (_categoryService.CategoryModification(dto, action).Success) return Ok();
-            else return BadRequest();
+            var category = req.EntityCreation();
+            var resp = _categoryService.Get(category.Name);
+            if (resp == null)
+            {
+                _categoryService.Add(category);
+                return Ok(ResponseFactory.WithSuccess());
+            } else return BadRequest(ResponseFactory.WithErrors("No category corresponding to this id"));
         }
+
+        [HttpDelete]
+        [Route("delete")]
+        public IActionResult CategoryDelete(int id) 
+        {
+            var resp = _categoryService.Get(id);
+            if (resp == null)
+            {
+                return BadRequest(ResponseFactory.WithErrors("No category corresponding to this id"));
+            }
+            if (resp.Books.Count == 0) 
+            {
+                _categoryService.Delete(id);
+                return Ok(ResponseFactory.WithSuccess());
+            } else
+            {
+                return BadRequest(ResponseFactory.WithErrors("There are books associated to this category"));
+            }
+        }
+
+
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Libreria.Service.Models.Responses
 {
-    public class BookSearchingResponse : BaseResponse<bool, ICollection<Book>>
+    public class BookSearchingResponse : BaseResponse<ICollection<Book>>
     {
 
     }

@@ -1,7 +1,9 @@
 ﻿using Libreria.Models.Entities.Actions;
 using Libreria.Service.Abstraction;
+using Libreria.Service.Factories;
 using Libreria.Service.Models.Dtos;
 using Libreria.Service.Models.Requests;
+using Libreria.Service.Models.Responses;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,14 +24,16 @@ namespace Libreria.Contollers
         }
 
         [HttpGet]
-        [Route("get")]
-        [SwaggerOperation(
-            Summary = "Get books by a filter",
-            Description = "Fetches all books corresponding to the filters",
-            OperationId = "GetBooks"
-        )]
-        public IActionResult GetBooks(BookRequest request)
+        [Route("get/{id:int}")]
+        public IActionResult GetBooks(BookReq req)
         {
+            if(req.ValidateFilters())
+            {
+                return Ok(ResponseFactory.WithSuccess(new BookSearchingResponse()
+                {
+                    Result = _bookService.GetAllByFilter(req.EntityCreation(), req.start, req.end, (int)req.pageSize, (int)req.pageCount)
+                }));
+            }
             if (_bookService.GetBooks(request).Success) return Ok();
             else return BadRequest();
         }
