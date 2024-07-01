@@ -3,7 +3,7 @@
     public class BaseResponse<T, K>
     {
 
-        public T Success { get; set; }
+        public bool Success { get; set; }
         public K? Result { get; set; } = default;
 
     }
