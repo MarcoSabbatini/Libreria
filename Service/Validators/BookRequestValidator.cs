@@ -4,17 +4,26 @@ using Libreria.Service.Models.Requests;
 
 namespace Libreria.Service.Validators
 {
-    public class BookRequestValidator : AbstractValidator<BookRequest>
+    public class BookRequestValidator : AbstractValidator<BookReq>
     {
         public BookRequestValidator()
         {
             //controlla se è stato inserito almeno un filtro tra quelli nell'enum
-            RuleFor(c => c.Filters)
+            RuleFor(x => x.start)
+                .LessThan(x => x.end)
+                .WithMessage("Starting date of the range has to be earlier than the end date of the range!");
+            RuleFor(x => x.pageCount)
+                .NotNull()
                 .NotEmpty()
-                .IsInEnum()
-                .Custom(SearchingValidation);
+                .GreaterThanOrEqualTo(0)
+                .WithMessage("Pagecount not valid");
+            RuleFor(x => x.pageSize)
+                .NotNull()
+                .NotEmpty()
+                .GreaterThan(1)
+                .WithMessage("Pagsize not valid");
         }
-
+        /*
         private void SearchingValidation(ICollection<SearchFilters> collection, ValidationContext<BookRequest> context)
         {
             foreach (var filter in collection)
@@ -49,7 +58,7 @@ namespace Libreria.Service.Validators
                         break;
                 }
             }
-        }
+        }*/
 
     }
 }
