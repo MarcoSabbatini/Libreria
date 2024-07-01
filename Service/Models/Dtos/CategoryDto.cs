@@ -6,7 +6,10 @@ namespace Libreria.Service.Models.Dtos
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<Book> Books { get; set; } = new List<Book>();
 
+        public static CategoryDto toDTO(Category category)
+        {
+            return new CategoryDto { Id = (int)category.Id, Name = category.Name};
+        }
     }
 }
