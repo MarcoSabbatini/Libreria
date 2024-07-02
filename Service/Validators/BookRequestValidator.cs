@@ -4,7 +4,7 @@ using Libreria.Service.Models.Requests;
 
 namespace Libreria.Service.Validators
 {
-    public class BookRequestValidator : AbstractValidator<BookReq>
+    public class BookRequestValidator : AbstractValidator<BookSearchReq>
     {
         public BookRequestValidator()
         {

@@ -23,22 +23,53 @@ namespace Libreria.Contollers
             _bookService = bookService;
         }
 
-        [HttpGet]
-        [Route("get/{id:int}")]
-        public IActionResult GetBooks(BookReq req)
+        [HttpPost]
+        [Route("filtered_search")]
+        public IActionResult GetBooks(BookSearchReq req)
         {
             if(req.ValidateFilters())
             {
                 return Ok(ResponseFactory.WithSuccess(new BookSearchingResponse()
                 {
-                    Result = _bookService.GetAllByFilter(req.EntityCreation(), req.start, req.end, (int)req.pageSize, (int)req.pageCount)
+                    Result = _bookService.GetAllByFilter(req.EntityCreation(), req.start, req.end, (int)req.pageSize, (int)req.pageCount),
+                    Success = true
                 }));
+            } else
+            {
+                return BadRequest(ResponseFactory.WithErrors("Choose at least one filter"));
             }
-            if (_bookService.GetBooks(request).Success) return Ok();
-            else return BadRequest();
+        }
+
+        [HttpDelete]
+        [Route("delete")]
+        public IActionResult Delete(int id)
+        {
+            if(_bookService.Get(id) != null)
+            {
+                _bookService.Delete(id);
+                return Ok(ResponseFactory.WithSuccess());  
+            }
+            return BadRequest(ResponseFactory.WithErrors("Select a valid id"));
+        }
+
+        [HttpPut]
+        [Route("edit")]
+        public IActionResult EditBook(BookModificationReq req)
+        {
+            if(_bookService.Get((int)req.Id) != null) {
+                return Ok(ResponseFactory.WithSuccess(_bookService.Modify(req.EntityCreation())));
+            } else return BadRequest(ResponseFactory.WithErrors("Select a valid id"));
         }
 
         [HttpPost]
+        [Route("new")]
+        public IActionResult Add(BookCreationReq req)
+        {
+            _bookService.Add(req.EntityCreation());
+            return Ok(ResponseFactory.WithSuccess());
+        }
+
+        /*[HttpPost]
         [Route("librarymodifications")]
         [SwaggerOperation(
             Summary = "Modifies library",
@@ -49,6 +80,6 @@ namespace Libreria.Contollers
         {
             if (_bookService.LibraryModification(dto, action).Success) return Ok();
             else return BadRequest();
-        }
+        }*/
     }
 }

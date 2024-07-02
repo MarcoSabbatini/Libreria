@@ -4,7 +4,7 @@ using System.Diagnostics.Metrics;
 
 namespace Libreria.Service.Models.Requests
 {
-    public class BookReq : GenericReq<Book>
+    public class BookSearchReq : GenericReq<Book>
     {
         public string Name { get; set; } = string.Empty;
         public string Author { get; set; } = string.Empty;
