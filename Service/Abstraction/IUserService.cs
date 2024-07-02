@@ -8,5 +8,8 @@ namespace Libreria.Service.Abstraction
     public interface IUserService
     {
         public void Add(User user);
+        public User Get(int id);
+        public User Get(string email);
+        public string CreateSecurityToken(Credentials credentials);
     }
 }

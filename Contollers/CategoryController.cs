@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Libreria.Contollers
 {
+    //with this all controllers in the assembly are treated as http operations
     [ApiController]
     [Route("api/v1/[controller]/category")]
     public class CategoryController : ControllerBase

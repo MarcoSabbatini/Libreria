@@ -102,5 +102,15 @@ namespace Libreria.Service.Services
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             return new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
         }
+
+        public User Get(int id)
+        {
+            return _userRepository.Get(id);
+        }
+
+        public User Get(string email)
+        {
+            return _userRepository.Get(email);
+        }
     }
 }
