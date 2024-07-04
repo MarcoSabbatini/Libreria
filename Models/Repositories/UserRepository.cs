@@ -18,7 +18,7 @@ namespace Libreria.Models.Repositories
 
         public User? Get(string email)
         {
-            return _ctx.Users.Where(x => x.Email == email).First();
+            return _ctx.Users.Where(x => x.Email == email).FirstOrDefault();
         }
 
         public bool CheckIfUnique(string email)

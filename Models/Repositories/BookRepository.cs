@@ -93,7 +93,7 @@ namespace Libreria.Models.Repositories
 
             ICollection<Category> categories = new List<Category>();
             foreach (var category in cats) { 
-                Category cat = _ctx.Categories.First(x => x.Name == category.Name);
+                Category cat = _ctx.Categories.FirstOrDefault(x => x.Name == category.Name);
                 if (cat == null)
                 {
                     _ctx.Categories.Add(category);

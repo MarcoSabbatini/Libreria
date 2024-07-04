@@ -10,13 +10,13 @@ namespace Libreria.Models.Repositories
         {
         }
 
-        public ICollection<Book>? Delete(int id)
+        /*public ICollection<Book>? Delete(int id)
         {
             var category = _ctx.Categories.FirstOrDefault(c => c.Id == id);
             return category.Books.Count == 0 ? category.Books : null;
-        }
+        }*/
 
-        public override Category? Get(int id)
+        public override Category Get(int id)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace Libreria.Models.Repositories
 
         public Category Get(string name) 
         {
-            return _ctx.Categories.Where(x => x.Name == name).First();       
+            return _ctx.Categories.Where(x => x.Name == name).FirstOrDefault();       
         }
 
 

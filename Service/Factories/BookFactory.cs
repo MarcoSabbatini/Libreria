@@ -6,7 +6,7 @@ namespace Libreria.Service.Factories
 {
     public class BookFactory
     {
-        public Book CreateEntity(BookDto dto, int id)
+        /*public Book CreateEntity(BookDto dto, int id)
         {
             return new Book()
             {
@@ -17,6 +17,6 @@ namespace Libreria.Service.Factories
                 Editor = dto.Editor,
                 Categories = dto.Categories
             };
-        }
+        }*/
     }
 }

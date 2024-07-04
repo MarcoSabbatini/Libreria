@@ -5,6 +5,7 @@ using Libreria.Extensions;
 using Libreria.Models.Context;
 using Libreria.Models.Repositories;
 using Libreria.Service.Abstraction;
+using Libreria.Service.Models.Responses;
 using Libreria.Service.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -15,30 +16,38 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
-builder.Services.AddRepositoryService(builder.Configuration)/*.AddSecurityServices(builder.Configuration)
-    .AddServicesSwagger()*/.AddWebServices().
-    AddApplicationServices().
-    AddFluentValidationAutoValidation().//allows validation rules defined in separate validator classes to be 
-                                        //automatically applied to incoming requests.
-    AddValidatorsFromAssembly(
+builder.Services.AddControllers()
+    /*.ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = (context) =>
+        {
+            return new BadRequestResultFactory(context);
+        };
+    }); */;
+builder.Services.AddRepositoryService(builder.Configuration);/*.AddSecurityServices(builder.Configuration)
+    .AddServicesSwagger()*/
+builder.Services.AddWebServices();
+builder.Services.AddApplicationServices();
+builder.Services.AddFluentValidationAutoValidation();//allows validation rules defined in separate validator classes to be 
+                                                     //automatically applied to incoming requests.
+builder.Services.AddValidatorsFromAssembly(
     AppDomain.CurrentDomain.GetAssemblies()
-    .SingleOrDefault()
-    ).
-    AddDbContext<MyDbContext>(conf => 
+    .SingleOrDefault(assembly => assembly.GetName().Name == "Libreria")
+    );
+builder.Services.AddDbContext<MyDbContext>(conf =>
         conf.UseSqlServer(builder.Configuration.GetConnectionString("MyDbContext"), options => options.EnableRetryOnFailure())
-    ).
-    // Register services with dependency injection
-    //addscoped(): A new instance of the service is created once per client request.
-    //The same instance is used throughout the entire request processing pipeline.
-    //This is useful for services that need to maintain state within a single request,
-    //but don't need to share state across different requests. 
-    AddScoped<IBookService, BookService>().
-    AddScoped<ICategoryService, CategoryService>().
-    AddScoped<IUserService, UserService>().
-    AddScoped<BookRepository>().
-    AddScoped<CategoryRepository>().
-    AddScoped<UserRepository>();
+    );
+// Register services with dependency injection
+//addscoped(): A new instance of the service is created once per client request.
+//The same instance is used throughout the entire request processing pipeline.
+//This is useful for services that need to maintain state within a single request,
+//but don't need to share state across different requests. 
+builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<BookRepository>();
+builder.Services.AddScoped<CategoryRepository>();
+builder.Services.AddScoped<UserRepository>();
 //describing the endpoints in the application
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

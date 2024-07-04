@@ -3,7 +3,7 @@ using Libreria.Models.Entities.Actions;
 
 namespace Libreria.Service.Models.Responses
 {
-    public class CategoryModificationResponse : BaseResponse<bool, Category>
+    public class CategoryModificationResponse //: BaseResponse<bool, Category>
     {
         public CategoryActions CategoryAction { get; set; }
         public String Name { get; set; } = string.Empty;

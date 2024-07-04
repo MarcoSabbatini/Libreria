@@ -25,7 +25,7 @@ namespace Libreria.Contollers
 
         [HttpPost]
         [Route("filtered_search")]
-        public IActionResult GetBooks(BookSearchReq req)
+        public IActionResult GetBook(BookSearchReq req)
         {
             if(req.ValidateFilters())
             {
@@ -62,7 +62,7 @@ namespace Libreria.Contollers
         }
 
         [HttpPost]
-        [Route("new")]
+        [Route("add")]
         public IActionResult Add(BookCreationReq req)
         {
             _bookService.Add(req.EntityCreation());
